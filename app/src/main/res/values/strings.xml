@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyAsset</string>
+    <string name="wellcome_first">Chào mừng bạn đến với \nMyAsset</string>
 </resources>

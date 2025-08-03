@@ -3,9 +3,7 @@ package com.example.myasset;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,17 +13,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    private ImageView btnStart;
     private ActivityResultLauncher<Intent> launcher;
-
+    private TextView btnLoginNavigate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signup);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -38,16 +35,15 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
         mapping();
-        btnStart.setOnClickListener(new View.OnClickListener() {
+        btnLoginNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 launcher.launch(intent);
             }
         });
     }
-
     private void mapping(){
-        btnStart = findViewById(R.id.btn_start_navigate);
+        btnLoginNavigate = findViewById(R.id.btn_dangnhap_navigate);
     }
 }
