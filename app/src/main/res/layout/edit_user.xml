@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <!-- Header với nút Quay lại và Xác nhận -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="68dp"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Quay lại"
+            android:text="←"
+            android:textColor="#333333"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Chỉnh sửa thông tin"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Xác nhận" />
+    </LinearLayout>
+
+    <!-- Ảnh đại diện -->
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/avt"
+        android:contentDescription="Avatar" />
+
+    <!-- Dòng chia cách -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="24dp" />
+
+    <!-- Các trường nhập thông tin -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
+
+        <!-- Tên người dùng -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tên người dùng"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@android:color/transparent"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:hint="Nhập tên" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <!-- Giới tính -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Giới tính"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edtGender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@android:color/transparent"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:hint="Nhập giới tính" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <!-- Ngày sinh -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ngày sinh"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edtDateOfBirth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@android:color/transparent"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:hint="dd/mm/yyyy" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <!-- Số điện thoại -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Số điện thoại"
+                android:textColor="#555555"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@android:color/transparent"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:hint="Nhập số điện thoại" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
