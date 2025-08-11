@@ -2,17 +2,23 @@ package com.example.myasset;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myasset.model.TaiKhoan;
+
 import java.io.IOException;
 
 public class UserActivity extends AppCompatActivity {
     TextView tvValueName, tvValuePhone, tvValueGender, tvValueBirth;
+    ImageView imgAvatar;
     DatabaseHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +59,20 @@ public class UserActivity extends AppCompatActivity {
         loadUserInfo();
     }
     private void loadUserInfo() {
-        Cursor cursor = dbHelper.getCurrentUser();
-        if (cursor != null && cursor.moveToFirst()) {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("tk"));
-            String phone = cursor.getString(cursor.getColumnIndexOrThrow("sdt"));
-            String gender = cursor.getString(cursor.getColumnIndexOrThrow("gioitinh"));
-            String birth = cursor.getString(cursor.getColumnIndexOrThrow("ngaysinh"));
+        TaiKhoan taiKhoan = dbHelper.getCurrentUserObject();
 
-            tvValueName.setText(name);
-            tvValuePhone.setText(phone);
-            tvValueGender.setText(gender);
-            tvValueBirth.setText(birth);
+        if (taiKhoan != null) {
+            tvValueName.setText(taiKhoan.getTk());
+            tvValuePhone.setText(taiKhoan.getSdt());
+            tvValueGender.setText(taiKhoan.getGioitinh());
+            tvValueBirth.setText(taiKhoan.getNgaysinh());
+
+            if (taiKhoan.getAnhtk() != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(taiKhoan.getAnhtk(), 0, taiKhoan.getAnhtk().length);
+
+                imgAvatar.setImageBitmap(bitmap);
+            }
         }
-        if (cursor != null) cursor.close();
     }
+
 }

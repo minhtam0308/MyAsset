@@ -1,23 +1,28 @@
 package com.example.myasset.model;
 
-import java.sql.Blob;
-
 public class TaiKhoan {
     private int idtk;
     private String tentk;
-    private Blob anhtk;
-    private String taikhoan;
     private String matkhau;
+    private byte[] anhtk; // đổi từ Blob sang byte[]
+    private String tk;
+    private String sdt;
+    private String gioitinh;
+    private String ngaysinh;
 
     public TaiKhoan() {
     }
 
-    public TaiKhoan(int idtk, String tentk, Blob anhtk, String taikhoan, String matkhau) {
+    public TaiKhoan(int idtk, String tentk, String matkhau, byte[] anhtk,
+                    String tk, String sdt, String gioitinh, String ngaysinh) {
         this.idtk = idtk;
         this.tentk = tentk;
-        this.anhtk = anhtk;
-        this.taikhoan = taikhoan;
         this.matkhau = matkhau;
+        this.anhtk = anhtk;
+        this.tk = tk;
+        this.sdt = sdt;
+        this.gioitinh = gioitinh;
+        this.ngaysinh = ngaysinh;
     }
 
     public int getIdtk() {
@@ -36,27 +41,51 @@ public class TaiKhoan {
         this.tentk = tentk;
     }
 
-    public Blob getAnhtk() {
-        return anhtk;
-    }
-
-    public void setAnhtk(Blob anhtk) {
-        this.anhtk = anhtk;
-    }
-
-    public String getTaikhoan() {
-        return taikhoan;
-    }
-
-    public void setTaikhoan(String taikhoan) {
-        this.taikhoan = taikhoan;
-    }
-
     public String getMatkhau() {
         return matkhau;
     }
 
     public void setMatkhau(String matkhau) {
         this.matkhau = matkhau;
+    }
+
+    public byte[] getAnhtk() {
+        return anhtk;
+    }
+
+    public void setAnhtk(byte[] anhtk) {
+        this.anhtk = anhtk;
+    }
+
+    public String getTk() {
+        return tk;
+    }
+
+    public void setTk(String tk) {
+        this.tk = tk;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public String getGioitinh() {
+        return gioitinh;
+    }
+
+    public void setGioitinh(String gioitinh) {
+        this.gioitinh = gioitinh;
+    }
+
+    public String getNgaysinh() {
+        return ngaysinh;
+    }
+
+    public void setNgaysinh(String ngaysinh) {
+        this.ngaysinh = ngaysinh;
     }
 }

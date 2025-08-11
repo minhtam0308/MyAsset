@@ -6,11 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.myasset.model.TaiKhoan;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Blob;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -79,4 +82,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Lấy thông tin user có ID = 1 (hoặc bạn có thể dùng SharedPreferences lưu userID đang đăng nhập)
         return db.rawQuery("SELECT tk, sdt, gioitinh, ngaysinh FROM taikhoan WHERE idtk = 2", null);
     }
+
+    public TaiKhoan getCurrentUserObject() {
+        TaiKhoan taiKhoan = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM taikhoan WHERE idtk = 1", null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            taiKhoan = new TaiKhoan();
+            taiKhoan.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+            taiKhoan.setTentk(cursor.getString(cursor.getColumnIndexOrThrow("tentk")));
+            taiKhoan.setMatkhau(cursor.getString(cursor.getColumnIndexOrThrow("matkhau")));
+            taiKhoan.setAnhtk(cursor.getBlob(cursor.getColumnIndexOrThrow("anhtk"))); // lấy byte[]
+            taiKhoan.setTk(cursor.getString(cursor.getColumnIndexOrThrow("tk")));
+            taiKhoan.setSdt(cursor.getString(cursor.getColumnIndexOrThrow("sdt")));
+            taiKhoan.setGioitinh(cursor.getString(cursor.getColumnIndexOrThrow("gioitinh")));
+            taiKhoan.setNgaysinh(cursor.getString(cursor.getColumnIndexOrThrow("ngaysinh")));
+        }
+
+        if (cursor != null) cursor.close();
+        db.close();
+
+        return taiKhoan;
+    }
+
+
 }
