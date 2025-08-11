@@ -17,7 +17,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "quanly_taisan.sqlite";
     private String DB_PATH;
     private Context mContext;
-    private
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, 1);

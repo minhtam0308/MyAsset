@@ -44,12 +44,12 @@
     <!-- Ảnh đại diện -->
     <ImageView
         android:id="@+id/imgAvatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="115dp"
+        android:layout_height="111dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="24dp"
-        android:src="@drawable/avt"
-        android:contentDescription="Avatar" />
+        android:contentDescription="Avatar"
+        android:src="@drawable/avt" />
 
     <!-- Dòng chia cách -->
     <View
