@@ -42,14 +42,30 @@
     </LinearLayout>
 
     <!-- Ảnh đại diện -->
-    <ImageView
-        android:id="@+id/imgAvatar"
-        android:layout_width="115dp"
-        android:layout_height="111dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:contentDescription="Avatar"
-        android:src="@drawable/avt" />
+    <FrameLayout
+        android:layout_width="120dp"
+        android:layout_height="155dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="115dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:contentDescription="Avatar"
+            android:src="@drawable/avt" />
+
+        <ImageView
+            android:id="@+id/imgEditIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@drawable/bg_circle_white"
+            android:contentDescription="Chỉnh sửa ảnh"
+            android:padding="6dp"
+            android:src="@drawable/ic_edit" />
+    </FrameLayout>
 
     <!-- Dòng chia cách -->
     <View
@@ -87,10 +103,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@android:color/transparent"
-                android:textColor="#000000"
-                android:textSize="16sp"
+                android:hint="Nhập tên"
                 android:singleLine="true"
-                android:hint="Nhập tên" />
+                android:textColor="#000000"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View

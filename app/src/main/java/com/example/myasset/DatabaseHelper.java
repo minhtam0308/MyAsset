@@ -1,5 +1,6 @@
 package com.example.myasset;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -77,11 +78,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Nâng cấp nếu cần
     }
 
-    public Cursor getCurrentUser() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        // Lấy thông tin user có ID = 1 (hoặc bạn có thể dùng SharedPreferences lưu userID đang đăng nhập)
-        return db.rawQuery("SELECT tk, sdt, gioitinh, ngaysinh FROM taikhoan WHERE idtk = 2", null);
-    }
+//    public Cursor getCurrentUser() {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        // Lấy thông tin user có ID = 1 (hoặc bạn có thể dùng SharedPreferences lưu userID đang đăng nhập)
+//        return db.rawQuery("SELECT tk, sdt, gioitinh, ngaysinh FROM taikhoan WHERE idtk = 2", null);
+//    }
 
     public TaiKhoan getCurrentUserObject() {
         TaiKhoan taiKhoan = null;
@@ -106,6 +107,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return taiKhoan;
     }
+
+    public boolean updateCurrentUser(String name, String gender, String dateOfBirth, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("tk", name);
+        values.put("gioitinh", gender);
+        values.put("ngaysinh", dateOfBirth);
+        values.put("sdt", phone);
+
+        int rows = db.update("taikhoan", values, "idtk = ?", new String[]{"1"});
+        db.close();
+        return rows > 0;
+    }
+
 
 
 }
