@@ -168,7 +168,7 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button"
+                    android:id="@+id/btn_dn"
                     style="@android:style/Widget.Button"
                     android:layout_width="200sp"
                     android:layout_height="wrap_content"

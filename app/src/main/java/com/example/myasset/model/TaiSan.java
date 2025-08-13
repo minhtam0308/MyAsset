@@ -1,18 +1,22 @@
 package com.example.myasset.model;
 
+import java.io.Serializable;
 import java.sql.Blob;
+import java.util.Arrays;
 
-public class TaiSan {
+public class TaiSan implements Serializable {
     private int idts;
     private int iddanhmuc;
     private int idtk;
     private String tents;
+    private int soluong;
+
     private String mota;
     private int giatri;
     private String ngaymua;
     private String tinhtrang;
     private String vitri;
-    private Blob anhts;
+    private byte[] anhts;
     private String ghichu;
     private String baohanhStart;
     private String baohanhEnd;
@@ -20,11 +24,12 @@ public class TaiSan {
     public TaiSan() {
     }
 
-    public TaiSan(int idts, int iddanhmuc, int idtk, String tents, String mota, int giatri, String ngaymua, String tinhtrang, String vitri, Blob anhts, String ghichu, String baohanhStart, String baohanhEnd) {
+    public TaiSan(int idts, int iddanhmuc, int idtk, String tents, int soluong, String mota, int giatri, String ngaymua, String tinhtrang, String vitri, byte[] anhts, String ghichu, String baohanhStart, String baohanhEnd) {
         this.idts = idts;
         this.iddanhmuc = iddanhmuc;
         this.idtk = idtk;
         this.tents = tents;
+        this.soluong = soluong;
         this.mota = mota;
         this.giatri = giatri;
         this.ngaymua = ngaymua;
@@ -68,6 +73,14 @@ public class TaiSan {
         this.tents = tents;
     }
 
+    public int getSoluong() {
+        return soluong;
+    }
+
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
+
     public String getMota() {
         return mota;
     }
@@ -108,11 +121,11 @@ public class TaiSan {
         this.vitri = vitri;
     }
 
-    public Blob getAnhts() {
+    public byte[] getAnhts() {
         return anhts;
     }
 
-    public void setAnhts(Blob anhts) {
+    public void setAnhts(byte[] anhts) {
         this.anhts = anhts;
     }
 
@@ -138,5 +151,25 @@ public class TaiSan {
 
     public void setBaohanhEnd(String baohanhEnd) {
         this.baohanhEnd = baohanhEnd;
+    }
+
+    @Override
+    public String toString() {
+        return "TaiSan{" +
+                "idts=" + idts +
+                ", iddanhmuc=" + iddanhmuc +
+                ", idtk=" + idtk +
+                ", tents='" + tents + '\'' +
+                ", soluong=" + soluong +
+                ", mota='" + mota + '\'' +
+                ", giatri=" + giatri +
+                ", ngaymua='" + ngaymua + '\'' +
+                ", tinhtrang='" + tinhtrang + '\'' +
+                ", vitri='" + vitri + '\'' +
+                ", anhts=" + Arrays.toString(anhts) +
+                ", ghichu='" + ghichu + '\'' +
+                ", baohanhStart='" + baohanhStart + '\'' +
+                ", baohanhEnd='" + baohanhEnd + '\'' +
+                '}';
     }
 }

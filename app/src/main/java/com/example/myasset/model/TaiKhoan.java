@@ -1,18 +1,19 @@
 package com.example.myasset.model;
 
+import java.io.Serializable;
 import java.sql.Blob;
 
-public class TaiKhoan {
+public class TaiKhoan implements Serializable {
     private int idtk;
     private String tentk;
-    private Blob anhtk;
+    private byte[] anhtk;
     private String taikhoan;
     private String matkhau;
 
     public TaiKhoan() {
     }
 
-    public TaiKhoan(int idtk, String tentk, Blob anhtk, String taikhoan, String matkhau) {
+    public TaiKhoan(int idtk, String tentk, byte[] anhtk, String taikhoan, String matkhau) {
         this.idtk = idtk;
         this.tentk = tentk;
         this.anhtk = anhtk;
@@ -36,11 +37,11 @@ public class TaiKhoan {
         this.tentk = tentk;
     }
 
-    public Blob getAnhtk() {
+    public byte[] getAnhtk() {
         return anhtk;
     }
 
-    public void setAnhtk(Blob anhtk) {
+    public void setAnhtk(byte[] anhtk) {
         this.anhtk = anhtk;
     }
 

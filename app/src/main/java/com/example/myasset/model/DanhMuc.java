@@ -1,6 +1,8 @@
 package com.example.myasset.model;
 
-public class DanhMuc {
+import java.io.Serializable;
+
+public class DanhMuc implements Serializable {
     private int iddanhmuc;
     private int idtk;
     private String tendm;
@@ -36,5 +38,10 @@ public class DanhMuc {
 
     public void setTendm(String tendm) {
         this.tendm = tendm;
+    }
+
+    @Override
+    public String toString() {
+        return tendm;
     }
 }
