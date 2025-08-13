@@ -25,6 +25,13 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user);
 
+
+
+        imgAvatar = findViewById(R.id.imgAvatar);
+        imgAvatar.setClipToOutline(true);
+
+
+
         dbHelper = new DatabaseHelper(this);
         try {
             dbHelper.createDatabase();

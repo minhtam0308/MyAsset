@@ -108,18 +108,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return taiKhoan;
     }
 
-    public boolean updateCurrentUser(String name, String gender, String dateOfBirth, String phone) {
+    public boolean updateCurrentUserWithImage(String name, String gender, String dateOfBirth, String phone, byte[] imageBytes) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("tk", name);
         values.put("gioitinh", gender);
         values.put("ngaysinh", dateOfBirth);
         values.put("sdt", phone);
-
+        if (imageBytes != null) {
+            values.put("anhtk", imageBytes);
+        }
         int rows = db.update("taikhoan", values, "idtk = ?", new String[]{"1"});
         db.close();
         return rows > 0;
     }
+
 
 
 
