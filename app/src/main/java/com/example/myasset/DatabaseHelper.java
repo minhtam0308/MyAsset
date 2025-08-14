@@ -2,6 +2,8 @@ package com.example.myasset;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -22,10 +24,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String DB_PATH;
     private Context mContext;
 
+    // them moi (tam)
+    private static final String ID_FILENAME = "MyAppPrefs";
+    private int idTK;
+
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.mContext = context;
         this.DB_PATH = context.getDatabasePath(DB_NAME).getPath();
+        //them (tam)
+        idTK = getUserIdFromPrefs(context);
     }
 
     public void createDatabase() throws IOException {
@@ -88,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         TaiKhoan taiKhoan = null;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM taikhoan WHERE idtk = 1", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM taikhoan WHERE idtk = ?", new String[]{String.valueOf(idTK)});
 
         if (cursor != null && cursor.moveToFirst()) {
             taiKhoan = new TaiKhoan();
@@ -118,12 +126,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (imageBytes != null) {
             values.put("anhtk", imageBytes);
         }
-        int rows = db.update("taikhoan", values, "idtk = ?", new String[]{"1"});
+        int rows = db.update("taikhoan", values, "idtk = ?", new String[]{String.valueOf(idTK)});
         db.close();
         return rows > 0;
     }
 
+    //code moi (tam)
+    public int checkLogin(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT idtk FROM taikhoan WHERE tk = ? AND matkhau = ?",
+                new String[]{username, password}
+        );
 
+        int userId = -1;
+        if (cursor.moveToFirst()) {
+            userId = cursor.getInt(0); // Lấy cột id
+        }
+
+        cursor.close();
+        db.close();
+
+        return userId;
+    }
+    public int getUserIdFromPrefs(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(ID_FILENAME, Context.MODE_PRIVATE);
+        return prefs.getInt("USER_ID", -1); // -1 nếu chưa đăng nhập
+    }
+
+    public boolean registerUser(String tenTK, String tk, String matkhau) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Kiểm tra trùng tài khoản
+        Cursor cursor = db.rawQuery("SELECT idtk FROM taikhoan WHERE tk = ?", new String[]{tk});
+        if (cursor.moveToFirst()) {
+            cursor.close();
+            db.close();
+            return false; // Tài khoản đã tồn tại
+        }
+        cursor.close();
+
+        ContentValues values = new ContentValues();
+        values.put("tentk", tenTK);
+        values.put("tk", tk);
+        values.put("matkhau", matkhau);
+
+        long result = db.insert("taikhoan", null, values);
+        db.close();
+        return result != -1;
+    }
 
 
 }

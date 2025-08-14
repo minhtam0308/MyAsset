@@ -1,6 +1,7 @@
 package com.example.myasset;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,11 +20,20 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView btnStart;
     private ActivityResultLauncher<Intent> launcher;
-
+    private static final String ID_FILENAME = "MyAppPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs = getSharedPreferences(ID_FILENAME, MODE_PRIVATE);
+        int userId = prefs.getInt("USER_ID", -1);
+        if (userId != -1) {
+            // Đã đăng nhập → chuyển thẳng sang MainActivity
+            startActivity(new Intent(this, UserActivity.class));
+            finish(); // Không cho quay lại màn hình login
+            return;
+        }
+        // 2. Nếu chưa đăng nhập thì hiển thị layout login
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -31,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), activityResult -> {
                     if (activityResult.getResultCode() == RESULT_OK && activityResult.getData() !=null) {

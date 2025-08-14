@@ -62,7 +62,7 @@
                         />
 
                     <EditText
-                        android:id="@+id/edten"
+                        android:id="@+id/edt_tentkSignup"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
                         android:layout_marginTop="8sp"
@@ -93,7 +93,7 @@
                         />
 
                     <EditText
-                        android:id="@+id/editTextText"
+                        android:id="@+id/edt_tksignup"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
                         android:layout_marginTop="8sp"
@@ -124,7 +124,7 @@
                         />
 
                     <EditText
-                        android:id="@+id/edmatkhau"
+                        android:id="@+id/edt_matkhauSignUp"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
                         android:layout_marginTop="8sp"
@@ -155,7 +155,7 @@
                         />
 
                     <EditText
-                        android:id="@+id/edmatkhau2"
+                        android:id="@+id/edt_matkhau2SignUp"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
                         android:layout_marginTop="8sp"
@@ -167,8 +167,18 @@
                         android:textColor="#707070" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_errorSignup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:text=""
+                    android:textColor="#F00404"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button"
+                    android:id="@+id/btn_signup"
                     style="@android:style/Widget.Button"
                     android:layout_width="200sp"
                     android:layout_height="wrap_content"

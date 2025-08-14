@@ -1,6 +1,7 @@
 package com.example.myasset;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,10 @@ public class UserActivity extends AppCompatActivity {
     TextView tvValueName, tvValuePhone, tvValueGender, tvValueBirth;
     ImageView imgAvatar;
     DatabaseHelper dbHelper;
+
+    //them (tam)
+    private static final String ID_FILENAME = "MyAppPrefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,13 @@ public class UserActivity extends AppCompatActivity {
 
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
+            //them (tam)
+            // Xóa USER_ID trong SharedPreferences
+            SharedPreferences prefs = getSharedPreferences(ID_FILENAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("USER_ID");
+            editor.apply();
+
             // Tạo intent về LoginActivity
             Intent intent = new Intent(UserActivity.this, LoginActivity.class);
             // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
