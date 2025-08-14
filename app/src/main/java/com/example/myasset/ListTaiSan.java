@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +29,12 @@ import java.util.ArrayList;
 
 public class ListTaiSan extends AppCompatActivity {
     private RecyclerView RvListTS;
-    private RecyclerView.Adapter adapterListTS;
+    private ListTSAdapter adapterListTS;
     private ActivityResultLauncher<Intent> launcher;
     private TextView countTS;
     ArrayList<TaiSan> TSList = new ArrayList<TaiSan>();
+    private ImageView exitListTS;
+    DatabaseHelper dbHelper;
 
     private int posMenu = 0;
 
@@ -45,19 +48,24 @@ public class ListTaiSan extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        dbHelper = new DatabaseHelper(this);
         mapping();
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), activityResult -> {
                     if (activityResult.getResultCode() == RESULT_OK && activityResult.getData() !=null) {
                         if(activityResult.getData().getSerializableExtra("savedTS") != null){
-                            TSList.add((TaiSan) activityResult.getData().getSerializableExtra("savedTS"));
+                            TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll(); // lấy từ SQLite
+                            adapterListTS.setData(TSList);
                             adapterListTS.notifyDataSetChanged();
+                            Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                             countTS.setText(""+TSList.size());
                         }
                         if(activityResult.getData().getSerializableExtra("editedTS") != null){
-                            TaiSan taiSanNew = (TaiSan) activityResult.getData().getSerializableExtra("editedTS");
-                            TSList.set(posMenu, taiSanNew);
-                            adapterListTS.notifyDataSetChanged();
+//                            TaiSan test =(TaiSan) activityResult.getData().getSerializableExtra("editedTS");
+//                            Toast.makeText(this, test.getTinhtrang(), Toast.LENGTH_SHORT).show();
+                            TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll(); // lấy từ SQLite
+                            adapterListTS.setData(TSList);
+                            Toast.makeText(this, "Sửa thành công", Toast.LENGTH_SHORT).show();
                             countTS.setText(""+TSList.size());
                         }
                     }
@@ -67,16 +75,12 @@ public class ListTaiSan extends AppCompatActivity {
         countTS.setText(""+TSList.size());
 
     }
+
     private void setListTS() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RvListTS = findViewById(R.id.rv_listTS);
         RvListTS.setLayoutManager(linearLayoutManager);
-        TSList.add(new TaiSan(1, 1, 1, "tai san 1",3, "mo ta 1", 500, "10/5/1022", "dang su dung", "ha nam", null, "ghi chu", "2022", "2025"));
-        TSList.add(new TaiSan(2, 1, 1, "tai san 2",3, "mo ta 1", 500, "10/5/1022", "dang su dung", "ha nam", null, "ghi chu", "2022", "2025"));
-        TSList.add(new TaiSan(3, 1, 1, "tai san 3",3, "mo ta 1", 500, "10/5/1022", "dang su dung", "ha nam", null, "ghi chu", "2022", "2025"));
-        TSList.add(new TaiSan(4, 1, 1, "tai san 3",3, "mo ta 1", 500, "10/5/1022", "dang su dung", "ha nam", null, "ghi chu", "2022", "2025"));
-        TSList.add(new TaiSan(5, 1, 1, "tai san 3",3, "mo ta 1", 500, "10/5/1022", "dang su dung", "ha nam", null, "ghi chu", "2022", "2025"));
-        TSList.add(new TaiSan(6, 1, 1, "tai san 3",3, "mo ta 1", 500, "10/5/1022", "dang su dung", "ha nam", null, "ghi chu", "2022", "2025"));
+        TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll();
         adapterListTS = new ListTSAdapter(TSList, new ListTSAdapter.ItemClickListener() {
             @Override
             public void onItemClick(TaiSan taiSan, int posistion) {
@@ -91,6 +95,17 @@ public class ListTaiSan extends AppCompatActivity {
 //                Toast.makeText(ListTaiSan.this, taiSan.toString(), Toast.LENGTH_SHORT).show();
                 posMenu = posistion;
 
+            }
+        });
+        exitListTS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Tạo intent về LoginActivity
+                Intent intent = new Intent(ListTaiSan.this, UserActivity.class);
+                // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
         RvListTS.setAdapter(adapterListTS);
@@ -118,14 +133,18 @@ public class ListTaiSan extends AppCompatActivity {
             alert.setMessage("Bạn muốn xóa tài sản này?");
             alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    TSList.remove(posMenu);
-                    adapterListTS.notifyDataSetChanged();
-                    if(!TSList.isEmpty()){
-                        posMenu = 0;
+                public void onClick(DialogInterface dialogInterface, int i) {;
+                    if(dbHelper.deleteTaiSan(TSList.get(posMenu).getIdts())){
+                        TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll(); // lấy từ SQLite
+                        adapterListTS.setData(TSList);
+                        if(!TSList.isEmpty()){
+                            posMenu = 0;
+                        }
+                        countTS.setText(""+TSList.size());
+                        Toast.makeText(ListTaiSan.this, "xóa thành công", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(ListTaiSan.this, "Không tìm thấy id tài sản", Toast.LENGTH_SHORT).show();
                     }
-                    countTS.setText(""+TSList.size());
-                    Toast.makeText(ListTaiSan.this, "xóa thành công", Toast.LENGTH_SHORT).show();
                 }
             });
             alert.setNegativeButton("Không", null);
@@ -142,7 +161,9 @@ public class ListTaiSan extends AppCompatActivity {
 
 
     private void mapping(){
+
         countTS = findViewById(R.id.countTS);
+        exitListTS = findViewById(R.id.btn_exitlistts);
     }
 
 

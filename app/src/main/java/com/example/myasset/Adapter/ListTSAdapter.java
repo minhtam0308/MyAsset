@@ -38,7 +38,10 @@ public class ListTSAdapter extends RecyclerView.Adapter<ListTSAdapter.ViewHolder
         this.itemClickLongListener = itemClickLongListener;
     }
 
-
+    public void setData(ArrayList<TaiSan> newList) {
+        this.taiSans = newList;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override

@@ -16,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView btnStart;
@@ -25,11 +27,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        try {
+            dbHelper.createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         SharedPreferences prefs = getSharedPreferences(ID_FILENAME, MODE_PRIVATE);
         int userId = prefs.getInt("USER_ID", -1);
         if (userId != -1) {
             // Đã đăng nhập → chuyển thẳng sang MainActivity
-            startActivity(new Intent(this, UserActivity.class));
+            startActivity(new Intent(this, ListTaiSan.class));
             finish(); // Không cho quay lại màn hình login
             return;
         }

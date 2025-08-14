@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -58,6 +59,8 @@ public class EditTSActivity extends AppCompatActivity {
     private ArrayList<DanhMuc> danhmucs = new ArrayList<>();
     ActivityResultLauncher<Intent> imagePickerLauncher;
     private TaiSan taiSan;
+    DatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,7 @@ public class EditTSActivity extends AppCompatActivity {
 
         mapping();
         SetDisplayaiSan();
+        dbHelper = new DatabaseHelper(this);
 
         settingSprinnerDanhMucTS();
         settingSprinnerTinhTrangTS();
@@ -82,6 +86,8 @@ public class EditTSActivity extends AppCompatActivity {
                         Uri selectedImageUri = result.getData().getData();
                         if (selectedImageUri != null) {
                             editImgTS.setImageURI(selectedImageUri);
+                            check=true;
+
                         }
                     }
                 }
@@ -95,7 +101,6 @@ public class EditTSActivity extends AppCompatActivity {
                         requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 100);
                     } else {
                         openImagePicker();
-                        check=true;
                     }
                 } else {
                     // Android 12 trở xuống
@@ -103,7 +108,6 @@ public class EditTSActivity extends AppCompatActivity {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
                     } else {
                         openImagePicker();
-                        check=true;
                     }
                 }
             }
@@ -237,10 +241,14 @@ public class EditTSActivity extends AppCompatActivity {
                 }
 
                 TaiSan savedTS = gatherTaiSan();
-                Intent edit = new Intent(EditTSActivity.this, ListTaiSan.class);
-                edit.putExtra("editedTS", savedTS);
-                setResult(RESULT_OK, edit);
-                finish();
+                if (dbHelper.updateTaiSan(savedTS)) {
+                    Intent edit = new Intent(EditTSActivity.this, ListTaiSan.class);
+                    edit.putExtra("editedTS", savedTS);
+                    setResult(RESULT_OK, edit);
+                    finish();
+                }else{
+                    Toast.makeText(EditTSActivity.this,"Có lỗi xảy ra" , Toast.LENGTH_SHORT).show();
+                }
             }
         });
         btnExit.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +280,7 @@ public class EditTSActivity extends AppCompatActivity {
 
     private TaiSan gatherTaiSan(){
         TaiSan result = new TaiSan();
-        if(check){
+        if(check || taiSan.getAnhts() != null){
             Bitmap photo = ((BitmapDrawable) editImgTS.getDrawable()).getBitmap();
             photo = resizeBitmap(photo, 800, 800);
             // Chuyển bitmap -> byte[]
@@ -285,9 +293,10 @@ public class EditTSActivity extends AppCompatActivity {
         }
         result.setTents(editTenTS.getText().toString());
         result.setIdtk(1);
-        result.setIdts(-1);
+        result.setIdts(taiSan.getIdts());
         result.setMota(editMoTaTS.getText().toString());
-        result.setIddanhmuc(danhmucs.get(editDanhmucTS.getSelectedItemPosition()).getIddanhmuc());
+        DanhMuc selectDanhMuc =(DanhMuc) editDanhmucTS.getSelectedItem();
+        result.setIddanhmuc(selectDanhMuc.getIddanhmuc());
         result.setGiatri(Integer.parseInt(editGiaTriTS.getText().toString()));
         result.setNgaymua(editNgayMua.getText().toString());
         result.setTinhtrang(editTinhTrangts.getSelectedItem().toString());
@@ -301,26 +310,23 @@ public class EditTSActivity extends AppCompatActivity {
 
     private void SetDisplayaiSan(){
         Intent intent = getIntent();
-        TaiSan result =(TaiSan) intent.getSerializableExtra("EditTS");
-        Toast.makeText(this, "dã chạy", Toast.LENGTH_SHORT).show();
+        taiSan =(TaiSan) intent.getSerializableExtra("EditTS");
             // Chuyển bitmap -> byte[]
-        if(result != null){
-            if(result.getAnhts() != null && result.getAnhts().length > 0){
+        if(taiSan != null){
+            if(taiSan.getAnhts() != null && taiSan.getAnhts().length > 0){
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(result.getAnhts(), 0, result.getAnhts().length);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(taiSan.getAnhts(), 0, taiSan.getAnhts().length);
                 editImgTS.setImageBitmap(bitmap);
             }
-            editTenTS.setText(result.getTents());
-            editMoTaTS.setText(result.getMota());
-            editDanhmucTS.setSelection(1);
-            editGiaTriTS.setText(String.valueOf(result.getGiatri()));
-            editNgayMua.setText(result.getNgaymua());
-            editTinhTrangts.setSelection(1);
-            editVitriTS.setText(result.getVitri());
-            editGhiChuTS.setText(result.getGhichu());
-            editBaoHanhStartTS.setText(result.getBaohanhStart());
-            editBaoHanhEndTS.setText(result.getBaohanhEnd());
-            editSoLuongTS.setText(String.valueOf(result.getSoluong()));
+            editTenTS.setText(taiSan.getTents());
+            editMoTaTS.setText(taiSan.getMota());
+            editGiaTriTS.setText(String.valueOf(taiSan.getGiatri()));
+            editNgayMua.setText(taiSan.getNgaymua());
+            editVitriTS.setText(taiSan.getVitri());
+            editGhiChuTS.setText(taiSan.getGhichu());
+            editBaoHanhStartTS.setText(taiSan.getBaohanhStart());
+            editBaoHanhEndTS.setText(taiSan.getBaohanhEnd());
+            editSoLuongTS.setText(String.valueOf(taiSan.getSoluong()));
         }
     }
     private Bitmap resizeBitmap(Bitmap original, int maxWidth, int maxHeight) {
@@ -363,9 +369,7 @@ public class EditTSActivity extends AppCompatActivity {
     }
 
     public void settingSprinnerDanhMucTS() {
-        danhmucs.add(new DanhMuc(1,1,"Nhà ở"));
-        danhmucs.add(new DanhMuc(2,1,"Xe cộ"));
-        danhmucs.add(new DanhMuc(3,1,"Trang sức"));
+        danhmucs = (ArrayList<DanhMuc>) dbHelper.getAllDanhMuc();
         ArrayAdapter<DanhMuc> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, danhmucs);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editDanhmucTS.setAdapter(adapter);
@@ -381,7 +385,14 @@ public class EditTSActivity extends AppCompatActivity {
             }
         });
         editDanhmucTS.setDropDownVerticalOffset(50);
-        editDanhmucTS.setSelection(0);
+        int position = -1;
+        for (int i = 0; i < danhmucs.size(); i++) {
+            if (danhmucs.get(i).getIddanhmuc() == taiSan.getIddanhmuc()) {
+                position = i;
+                break;
+            }
+        }
+        editDanhmucTS.setSelection(position);
     }
     public void settingSprinnerTinhTrangTS() {
         ArrayList<String> tinhtrangs = new ArrayList<>();
@@ -405,6 +416,10 @@ public class EditTSActivity extends AppCompatActivity {
         });
         editTinhTrangts.setDropDownVerticalOffset(50);
         editTinhTrangts.setSelection(0);
+        int position = tinhtrangs.indexOf(taiSan.getTinhtrang());
+        if(position >= 0){
+            editTinhTrangts.setSelection(position);
+        }
     }
 
     private void settingChoseDate(){

@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
                 // Chuyển sang màn hình chính
-                startActivity(new Intent(this, UserActivity.class));
+                startActivity(new Intent(this, ListTaiSan.class));
                 finish();
             } else {
                 tvError.setText("Sai tài khoản hoặc mật khẩu!");

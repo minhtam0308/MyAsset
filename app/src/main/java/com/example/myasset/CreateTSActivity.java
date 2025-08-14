@@ -59,7 +59,7 @@ public class CreateTSActivity extends AppCompatActivity {
     private  ArrayList<DanhMuc> danhmucs = new ArrayList<>();
     ActivityResultLauncher<Intent> imagePickerLauncher;
     private TaiSan taiSan;
-
+    DatabaseHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +71,7 @@ public class CreateTSActivity extends AppCompatActivity {
             return insets;
         });
         mapping();
+        dbHelper = new DatabaseHelper(this);
         settingSprinnerDanhMucTS();
         settingSprinnerTinhTrangTS();
         settingChoseDate();
@@ -236,10 +237,13 @@ public class CreateTSActivity extends AppCompatActivity {
                 }
 
                 TaiSan savedTS = gatherTaiSan();
-                Intent tao = new Intent(CreateTSActivity.this, ListTaiSan.class);
-                tao.putExtra("savedTS", savedTS);
-                setResult(RESULT_OK, tao);
-                finish();
+                if(dbHelper.insertTaiSan(savedTS)){
+                    Intent tao = new Intent(CreateTSActivity.this, ListTaiSan.class);
+                    tao.putExtra("savedTS", savedTS);
+                    setResult(RESULT_OK, tao);
+                    finish();
+                }
+
             }
         });
 
@@ -288,7 +292,8 @@ public class CreateTSActivity extends AppCompatActivity {
         result.setIdtk(1);
         result.setIdts(-1);
         result.setMota(createMoTaTS.getText().toString());
-        result.setIddanhmuc(danhmucs.get(createDanhmucTS.getSelectedItemPosition()).getIddanhmuc());
+        DanhMuc selectedDanhMuc = (DanhMuc) createDanhmucTS.getSelectedItem();
+        result.setIddanhmuc(selectedDanhMuc.getIddanhmuc());
         result.setGiatri(Integer.parseInt(createGiaTriTS.getText().toString()));
         result.setNgaymua(createNgayMua.getText().toString());
         result.setTinhtrang(createTinhTrangts.getSelectedItem().toString());
@@ -339,9 +344,7 @@ public class CreateTSActivity extends AppCompatActivity {
     }
 
     public void settingSprinnerDanhMucTS() {
-        danhmucs.add(new DanhMuc(1,1,"Nhà ở"));
-        danhmucs.add(new DanhMuc(2,1,"Xe cộ"));
-        danhmucs.add(new DanhMuc(3,1,"Trang sức"));
+        danhmucs =  (ArrayList<DanhMuc>) dbHelper.getAllDanhMuc();
         ArrayAdapter<DanhMuc> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, danhmucs);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createDanhmucTS.setAdapter(adapter);

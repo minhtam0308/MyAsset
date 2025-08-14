@@ -8,8 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.example.myasset.model.DanhMuc;
 import com.example.myasset.model.TaiKhoan;
+import com.example.myasset.model.TaiSan;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -135,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int checkLogin(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT idtk FROM taikhoan WHERE tk = ? AND matkhau = ?",
+                "SELECT idtk FROM taikhoan WHERE tentk = ? AND matkhau = ?",
                 new String[]{username, password}
         );
 
@@ -154,11 +159,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return prefs.getInt("USER_ID", -1); // -1 nếu chưa đăng nhập
     }
 
-    public boolean registerUser(String tenTK, String tk, String matkhau) {
+    public boolean registerUser(String tk, String tenTK, String matkhau) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Kiểm tra trùng tài khoản
-        Cursor cursor = db.rawQuery("SELECT idtk FROM taikhoan WHERE tk = ?", new String[]{tk});
+        Cursor cursor = db.rawQuery("SELECT idtk FROM taikhoan WHERE tentk = ?", new String[]{tenTK});
         if (cursor.moveToFirst()) {
             cursor.close();
             db.close();
@@ -172,8 +177,139 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("matkhau", matkhau);
 
         long result = db.insert("taikhoan", null, values);
+
+        String sql = "INSERT INTO danhmuc (tendm, idtk) VALUES (?, ?)";
+        db.execSQL(sql, new Object[]{"Nhà ở", result});
+        db.execSQL(sql, new Object[]{"Trang sức", result});
+        db.execSQL(sql, new Object[]{"Xe cộ", result});
         db.close();
         return result != -1;
+    }
+
+    public List<DanhMuc> getAllDanhMuc() {
+        List<DanhMuc> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM danhmuc WHERE idtk = ?", new String[]{String.valueOf(idTK)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                DanhMuc dm = new DanhMuc();
+                dm.setIddanhmuc(cursor.getInt(cursor.getColumnIndexOrThrow("iddanhmuc")));
+                dm.setTendm(cursor.getString(cursor.getColumnIndexOrThrow("tendm")));
+                dm.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+                list.add(dm);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        db.close();
+        return list;
+    }
+    public List<TaiSan> getTaiSanAll() {
+        List<TaiSan> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM taisan WHERE idtk = ?", new String[]{String.valueOf(idTK)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                TaiSan ts = new TaiSan();
+                ts.setIdts(cursor.getInt(cursor.getColumnIndexOrThrow("idts")));
+                ts.setTents(cursor.getString(cursor.getColumnIndexOrThrow("tents")));
+                ts.setMota(cursor.getString(cursor.getColumnIndexOrThrow("mota")));
+                ts.setIddanhmuc(cursor.getInt(cursor.getColumnIndexOrThrow("iddanhmuc")));
+                ts.setNgaymua(cursor.getString(cursor.getColumnIndexOrThrow("ngaymua")));
+                ts.setTinhtrang(cursor.getString(cursor.getColumnIndexOrThrow("tinhtrang")));
+                ts.setGiatri(cursor.getInt(cursor.getColumnIndexOrThrow("giatri")));
+                ts.setVitri(cursor.getString(cursor.getColumnIndexOrThrow("vitri")));
+                ts.setGhichu(cursor.getString(cursor.getColumnIndexOrThrow("ghichu")));
+                ts.setBaohanhStart(cursor.getString(cursor.getColumnIndexOrThrow("baohanhStart")));
+                ts.setBaohanhEnd(cursor.getString(cursor.getColumnIndexOrThrow("baohanhEnd")));
+                ts.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+                ts.setSoluong(cursor.getInt(cursor.getColumnIndexOrThrow("soluong")));
+
+                // Lấy ảnh dạng byte[]
+                int colIndexAnh = cursor.getColumnIndex("anhts");
+                if (colIndexAnh != -1 && !cursor.isNull(colIndexAnh)) {
+                    ts.setAnhts(cursor.getBlob(colIndexAnh));
+                }
+                list.add(ts);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return list;
+    }
+
+    public boolean updateTaiSan(TaiSan ts) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("tents", ts.getTents());
+        values.put("mota", ts.getMota());
+        values.put("iddanhmuc", ts.getIddanhmuc());
+        values.put("giatri", ts.getGiatri());
+        values.put("ngaymua", ts.getNgaymua());
+        values.put("tinhtrang", ts.getTinhtrang());
+        values.put("vitri", ts.getVitri());
+        values.put("ghichu", ts.getGhichu());
+        values.put("baohanhStart", ts.getBaohanhStart());
+        values.put("baohanhEnd", ts.getBaohanhEnd());
+        values.put("idtk", idTK);
+        values.put("soluong", ts.getSoluong());
+
+        // Nếu có ảnh thì cập nhật
+        if (ts.getAnhts() != null && ts.getAnhts().length > 0) {
+            values.put("anhts", ts.getAnhts());
+        }
+
+        int rows = db.update(
+                "taisan",
+                values,
+                "idts = ?",
+                new String[]{String.valueOf(ts.getIdts())}
+        );
+
+        db.close();
+        return rows > 0; // Trả về true nếu có bản ghi được cập nhật
+    }
+
+    public boolean insertTaiSan(TaiSan ts) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("tents", ts.getTents());
+        values.put("mota", ts.getMota());
+        values.put("iddanhmuc", ts.getIddanhmuc());
+        values.put("giatri", ts.getGiatri());
+        values.put("ngaymua", ts.getNgaymua());
+        values.put("tinhtrang", ts.getTinhtrang());
+        values.put("vitri", ts.getVitri());
+        values.put("ghichu", ts.getGhichu());
+        values.put("baohanhStart", ts.getBaohanhStart());
+        values.put("baohanhEnd", ts.getBaohanhEnd());
+        values.put("idtk", idTK);
+        values.put("soluong", ts.getSoluong());
+
+        // Nếu có ảnh thì cập nhật
+        if (ts.getAnhts() != null && ts.getAnhts().length > 0) {
+            values.put("anhts", ts.getAnhts());
+        }
+
+        long result = db.insert("taisan", null, values);
+        db.close();
+
+        return result != -1; // true nếu thành công
+    }
+
+    public boolean deleteTaiSan(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rows = db.delete("taisan", "idts = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return rows > 0; // true nếu xóa thành công
     }
 
 
