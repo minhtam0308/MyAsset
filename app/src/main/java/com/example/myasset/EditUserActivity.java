@@ -1,12 +1,14 @@
 package com.example.myasset;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,13 +21,17 @@ import com.example.myasset.model.TaiKhoan;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class EditUserActivity extends AppCompatActivity {
     private EditText edtName, edtGender, edtDateOfBirth, edtPhone;
     private ImageView imgAvatar, imgEditIcon;
     private static final int PICK_IMAGE_REQUEST = 1;
     private byte[] selectedImageBytes = null;
-
+    private ImageView btnDob;
     private DatabaseHelper dbHelper;
     private Button btnConfirm, btnBack;
     @Override
@@ -45,9 +51,29 @@ public class EditUserActivity extends AppCompatActivity {
         imgEditIcon = findViewById(R.id.imgEditIcon);
         btnConfirm = findViewById(R.id.btnConfirm);
         btnBack = findViewById(R.id.btnBack);
+        btnDob = findViewById(R.id.btn_dobEdit);
 
         // Load thông tin user
         loadUserInfo();
+
+        //choose date
+        btnDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar calendar = Calendar.getInstance();
+                int y = calendar.get(Calendar.YEAR);
+                int m = calendar.get(Calendar.MONTH);
+                int d = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditUserActivity.this, (view1,
+                                                                                               year, month, day)->{
+                    String s = day+"/"+(month+1)+"/"+year;
+                    edtDateOfBirth.setText(s);
+                }, y, m, d);
+                datePickerDialog.show();
+            }
+        });
 
         // Nút Xác nhận
         btnConfirm.setOnClickListener(v -> {
@@ -56,15 +82,22 @@ public class EditUserActivity extends AppCompatActivity {
             String dob = edtDateOfBirth.getText().toString().trim();
             String phone = edtPhone.getText().toString().trim();
 
-            boolean success = dbHelper.updateCurrentUserWithImage(name, gender, dob, phone, selectedImageBytes);
-            if (success) {
-                Toast.makeText(this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EditUserActivity.this, UserActivity.class);
-                startActivity(intent);
-                finish(); // đóng EditUserActivity
-            } else {
-                Toast.makeText(this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+            if(validateAccount(name, dob)){
+                boolean success = dbHelper.updateCurrentUserWithImage(name, gender, dob, phone, selectedImageBytes);
+                if (success) {
+                    Toast.makeText(this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EditUserActivity.this, UserActivity.class);
+                    startActivity(intent);
+                    finish(); // đóng EditUserActivity
+                } else {
+                    Toast.makeText(this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(this, "Nhập thông tin không đúng định dạng!", Toast.LENGTH_SHORT).show();
+
             }
+
+
 
         });
 
@@ -143,6 +176,41 @@ public class EditUserActivity extends AppCompatActivity {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream); // 70% chất lượng để giảm dung lượng
         return stream.toByteArray();
+    }
+
+    public boolean validateAccount(String tenTaiKhoan, String ngaySinh) {
+        // 1. Kiểm tra tên tài khoản
+        if (tenTaiKhoan == null || tenTaiKhoan.trim().isEmpty()) {
+            edtName.setError("Tên người dùng không đuợc để trống");
+            return false;
+        }
+        if(!edtPhone.getText().toString().isEmpty()){
+            if(edtPhone.getText().toString().length() < 10){
+                edtPhone.setError("Tên người dùng không đuợc để trống");
+                return false;
+            }
+        }
+
+        if(ngaySinh != null || !ngaySinh.isEmpty()){
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false); // Bắt buộc đúng định dạng
+
+            try {
+                Date date = sdf.parse(ngaySinh);
+
+                // So sánh với ngày hiện tại
+                Date today = new Date();
+                if (date.after(today)) {
+                    edtDateOfBirth.setError( "Ngày sinh không được lớn hơn ngày hiện tại");
+                    return false;
+                }
+            } catch (ParseException e) {
+                edtDateOfBirth.setError( "Ngày sinh không đúng định dạng");
+                return false;
+            }
+        }
+
+        return true; // Hợp lệ
     }
 
 
