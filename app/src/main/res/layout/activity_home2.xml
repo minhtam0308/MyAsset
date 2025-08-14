@@ -110,37 +110,6 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Thanh tìm kiếm  -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_search"
-                android:paddingHorizontal="12dp"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_search"
-                    android:contentDescription="Tìm kiếm"
-                    app:tint="#FF8A65" />
-
-                <EditText
-                    android:id="@+id/edtSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:hint="Tìm kiếm sản phẩm"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="14sp"
-                    android:textColor="#5D4037"
-                    android:textColorHint="#A1887F"/>
-            </LinearLayout>
 
             <!-- Thống kê nhanh -->
             <LinearLayout
@@ -268,7 +237,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:columnCount="3"
+                android:columnCount="4"
                 android:useDefaultMargins="true"
                 android:alignmentMode="alignMargins">
 
@@ -352,7 +321,31 @@
                         android:textSize="12sp"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/btn_timkiemTrangchu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_circle_orange"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_search"
+                        android:drawableTint="@color/white"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Tìm kiếm"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
             </GridLayout>
 
 

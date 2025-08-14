@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="#F5F5F5"
-    tools:context=".ChiTietTaiSanActivity">
+    tools:context=".DetailTSActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
