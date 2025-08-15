@@ -160,7 +160,8 @@ public class HomeActivity extends AppCompatActivity {
     private void loadInfoHome() {
         taiKhoan = dbHelper.getCurrentUserObject();
         lstTS =(ArrayList<TaiSan>) dbHelper.getTaiSanAll();
-        lastestTS =new ArrayList<>( get5TaiSanGanNhat(lstTS));
+        lastestTS =new ArrayList<>(get5TaiSanGanNhat(lstTS));
+
         if(taiKhoan == null){
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
@@ -171,7 +172,11 @@ public class HomeActivity extends AppCompatActivity {
             long tongts = dbHelper.getTongGiaTriTaiSan();
             tvUserName.setText(taiKhoan.getTk());
             tvTotalValue.setText(formatVND(tongts));
-            tvLatestAsset.setText(lastestTS.get(0).getTents());
+            if (lastestTS != null && !lastestTS.isEmpty()) {
+                tvLatestAsset.setText(lastestTS.get(0).getTents());
+            } else {
+                tvLatestAsset.setText("Chưa có tài sản");
+            }
 
             if (taiKhoan.getAnhtk() != null) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(taiKhoan.getAnhtk(), 0, taiKhoan.getAnhtk().length);
@@ -223,6 +228,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public List<TaiSan> get5TaiSanGanNhat(List<TaiSan> listTaiSan) {
+        if (listTaiSan == null || listTaiSan.isEmpty()) return new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         // Sắp xếp giảm dần theo ngày mua
