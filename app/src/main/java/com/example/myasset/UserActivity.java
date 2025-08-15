@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class UserActivity extends AppCompatActivity {
 
     //them (tam)
     private static final String ID_FILENAME = "MyAppPrefs";
+    private LinearLayout navDanhMuc, navUser, navHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,10 @@ public class UserActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
         loadUserInfo();
+
+        //them Tam
+        mapping();
+        onClickNav();
     }
     private void loadUserInfo() {
         TaiKhoan taiKhoan = dbHelper.getCurrentUserObject();
@@ -92,6 +99,23 @@ public class UserActivity extends AppCompatActivity {
                 imgAvatar.setImageBitmap(bitmap);
             }
         }
+    }
+
+    //them Tam
+    private void mapping(){
+        navUser = findViewById(R.id.navUser);
+        navDanhMuc = findViewById(R.id.navDanhMuc);
+        navHome = findViewById(R.id.navHome);
+    }
+
+    private void onClickNav(){
+        navHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

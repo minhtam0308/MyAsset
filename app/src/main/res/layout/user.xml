@@ -5,204 +5,276 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFF"
-    android:padding="16dp">
-
-    <!-- Header Title -->
-    <TextView
-        android:id="@+id/tvHeaderTitle"
+    android:fitsSystemWindows="true"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_horizontal"
-        android:text="Thông tin người dùng"
-        android:textSize="20sp"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:layout_height="match_parent">
 
-    <!-- Avatar icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <!-- Header Title -->
+            <TextView
+                android:id="@+id/tvHeaderTitle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_horizontal"
+                android:text="Thông tin người dùng"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    <!-- Divider -->
-    <ImageView
-        android:id="@+id/imgAvatar"
-        android:layout_width="113dp"
-        android:layout_height="113dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/circle_mask"
-        android:scaleType="centerCrop"
-        android:src="@drawable/avt" />
+            <!-- Avatar icon -->
+
+            <!-- Divider -->
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="113dp"
+                android:layout_height="113dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/circle_mask"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avt" />
 
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="24dp"
-        android:background="#CCCCCC" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="#CCCCCC" />
 
 
-    <!-- Info items container -->
+            <!-- Info items container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="16dp">
+
+                <!-- Example info item -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/tvLabelName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tên người dùng"
+                        android:textColor="#555555"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvValueName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Toàn"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE" />
+
+                <!-- Tương tự các mục khác -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/tvLabelGender"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Giới tính"
+                        android:textColor="#555555"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvValueGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nam"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/tvLabelBirth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ngày sinh"
+                        android:textColor="#555555"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvValueBirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="29/02/2004"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/tvLabelPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Số điện thoại"
+                        android:textColor="#555555"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvValuePhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0795 123 456"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:backgroundTint="@android:color/transparent"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="Sửa"
+                    android:textColor="#1976D2"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <!-- Logout button -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#D32F2F"
+                android:text="Đăng xuất"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingTop="16dp">
+        android:id="@+id/bottom_nav_container"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
-        <!-- Example info item -->
+        <!-- Trang chủ -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:background="?android:attr/selectableItemBackground">
+            android:id="@+id/navHome"
+            style="@style/BottomNavItem">
+
+            <ImageView
+                style="@style/BottomNavIcon"
+                android:src="@drawable/ic_home" />
 
             <TextView
-                android:id="@+id/tvLabelName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tên người dùng"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvValueName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Toàn"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                style="@style/BottomNavText"
+                android:text="Trang chủ" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <!-- Tương tự các mục khác -->
-
+        <!-- Tài sản -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:background="?android:attr/selectableItemBackground">
+            android:id="@+id/navDanhMuc"
+            style="@style/BottomNavItem">
+
+            <ImageView
+                style="@style/BottomNavIcon"
+                android:src="@drawable/ic_category" />
 
             <TextView
-                android:id="@+id/tvLabelGender"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Giới tính"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvValueGender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nam"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                style="@style/BottomNavText"
+                android:text="Danh muc" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
+        <!-- tai khoan -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:background="?android:attr/selectableItemBackground">
+            android:id="@+id/navUser"
+            style="@style/BottomNavItem">
+
+            <ImageView
+                style="@style/BottomNavIcon"
+                android:src="@drawable/ic_user" />
 
             <TextView
-                android:id="@+id/tvLabelBirth"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Ngày sinh"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvValueBirth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="29/02/2004"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                style="@style/BottomNavText"
+                android:text="Tài Khoản" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:background="?android:attr/selectableItemBackground">
-
-            <TextView
-                android:id="@+id/tvLabelPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Số điện thoại"
-                android:textColor="#555555"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvValuePhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0795 123 456"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="52dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:backgroundTint="@android:color/transparent"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="Sửa"
-            android:textColor="#1976D2"
-            android:textSize="14sp" />
-
+        <!-- Cài đặt -->
 
 
     </LinearLayout>
-
-    <!-- Logout button -->
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="160dp"
-        android:layout_height="48dp"
-        android:text="Đăng xuất"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#D32F2F"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

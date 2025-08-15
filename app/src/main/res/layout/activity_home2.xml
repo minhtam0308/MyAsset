@@ -152,7 +152,7 @@
                             android:layout_height="wrap_content"
                             android:text="50.000.000 VNĐ"
                             android:textColor="#FFFFFF"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -188,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:text="4 mục"
                             android:textColor="#FFFFFF"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -224,7 +224,7 @@
                             android:layout_height="wrap_content"
                             android:text="Laptop Dell XPS"
                             android:textColor="#FFFFFF"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textStyle="bold"
                             tools:text="Laptop Dell xps 13" />
                     </LinearLayout>
@@ -237,7 +237,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:columnCount="4"
+                android:columnCount="3"
                 android:useDefaultMargins="true"
                 android:alignmentMode="alignMargins">
 
@@ -296,31 +296,7 @@
                 </LinearLayout>
 
                 <!-- danh muc-->
-                <LinearLayout
-                    android:id="@+id/btnStatistics"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/bg_circle_orange"
-                        android:padding="16dp"
-                        android:src="@drawable/ic_category"
-                        android:drawableTint="@color/white"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Danh mục"
-                        android:textSize="12sp"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/btn_timkiemTrangchu"
                     android:layout_width="0dp"
@@ -380,205 +356,18 @@
             <!-- Danh sách gần đây -->
 
             <!-- MẪU TÀI SẢN 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/sample_asset1"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/bg_rounded_image" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Laptop Dell XPS 13"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giá trị: 28,000,000 đ"
-                        android:textSize="13sp"
-                        android:textColor="#666" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ngày thêm: 10/08/2025"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Loại: Thiết bị điện tử"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-                </LinearLayout>
-            </LinearLayout>
 
             <!-- MẪU TÀI SẢN 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/sample_asset2"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/bg_rounded_image" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Điện thoại iPhone 15 Pro"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giá trị: 33,000,000 đ"
-                        android:textSize="13sp"
-                        android:textColor="#666" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ngày thêm: 08/08/2025"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Loại: Điện thoại"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-                </LinearLayout>
-            </LinearLayout>
 
             <!-- MẪU TÀI SẢN 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/sample_asset3"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/bg_rounded_image" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Xe máy Honda SH 150i"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giá trị: 110,000,000 đ"
-                        android:textSize="13sp"
-                        android:textColor="#666" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ngày thêm: 05/08/2025"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Loại: Phương tiện"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-                </LinearLayout>
-            </LinearLayout>
 
             <!-- MẪU TÀI SẢN 4 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/sample_asset4"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/bg_rounded_image" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đồng hồ Rolex Submariner"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Giá trị: 250,000,000 đ"
-                        android:textSize="13sp"
-                        android:textColor="#666" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ngày thêm: 02/08/2025"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Loại: Trang sức"
-                        android:textSize="12sp"
-                        android:textColor="#888" />
-                </LinearLayout>
-            </LinearLayout>
             <!-- khoảng trống dưới để không bị bottom nav che -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RvListGanDay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="72dp" />
@@ -592,20 +381,23 @@
         android:layout_height="70dp"
         android:background="@drawable/bg_bottom_nav"
         android:elevation="8dp"
+        android:gravity="center"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:gravity="center"
+        android:layout_marginHorizontal="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Trang chủ -->
         <LinearLayout
             android:id="@+id/navHome"
             style="@style/BottomNavItem">
+
             <ImageView
                 style="@style/BottomNavIcon"
                 android:src="@drawable/ic_home" />
+
             <TextView
                 style="@style/BottomNavText"
                 android:text="Trang chủ" />
@@ -613,38 +405,33 @@
 
         <!-- Tài sản -->
         <LinearLayout
-            android:id="@+id/navAssets"
+            android:id="@+id/navDanhMuc"
             style="@style/BottomNavItem">
+
             <ImageView
                 style="@style/BottomNavIcon"
-                android:src="@drawable/ic_list" />
+                android:src="@drawable/ic_category" />
+
             <TextView
                 style="@style/BottomNavText"
-                android:text="Tài sản" />
+                android:text="Danh muc" />
         </LinearLayout>
 
         <!-- tai khoan -->
         <LinearLayout
             android:id="@+id/navUser"
             style="@style/BottomNavItem">
+
             <ImageView
                 style="@style/BottomNavIcon"
                 android:src="@drawable/ic_user" />
+
             <TextView
                 style="@style/BottomNavText"
                 android:text="Tài Khoản" />
         </LinearLayout>
         <!-- Cài đặt -->
-        <LinearLayout
-            android:id="@+id/navSettings"
-            style="@style/BottomNavItem">
-            <ImageView
-                style="@style/BottomNavIcon"
-                android:src="@drawable/ic_settings" />
-            <TextView
-                style="@style/BottomNavText"
-                android:text="Cài đặt" />
-        </LinearLayout>
+
 
     </LinearLayout>
 

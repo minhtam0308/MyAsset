@@ -66,6 +66,40 @@
                 android:paddingBottom="20sp"
                 >
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_search"
+                    android:paddingHorizontal="12dp"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/edtSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:background="@null"
+                        android:hint="Tìm kiếm sản phẩm"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:textColor="#5D4037"
+                        android:textColorHint="#A1887F"/>
+
+                    <ImageView
+                        android:id="@+id/btn_search_listts"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_search"
+                        android:contentDescription="Tìm kiếm"
+                        app:tint="#FF8A65" />
+                </LinearLayout>
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_listTS"
                     android:layout_width="match_parent"

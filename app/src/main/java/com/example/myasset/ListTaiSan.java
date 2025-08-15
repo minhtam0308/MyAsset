@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +32,10 @@ public class ListTaiSan extends AppCompatActivity {
     private RecyclerView RvListTS;
     private ListTSAdapter adapterListTS;
     private ActivityResultLauncher<Intent> launcher;
+    private EditText edtSearch;
     private TextView countTS;
     ArrayList<TaiSan> TSList = new ArrayList<TaiSan>();
-    private ImageView exitListTS;
+    private ImageView exitListTS, btnSearchListTS;
     DatabaseHelper dbHelper;
 
     private int posMenu = 0;
@@ -50,13 +52,18 @@ public class ListTaiSan extends AppCompatActivity {
         });
         dbHelper = new DatabaseHelper(this);
         mapping();
+        Intent resCreate = getIntent();
+        if(resCreate.getSerializableExtra("savedTS") != null){
+            Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+        } else if (resCreate.getSerializableExtra("timkiem") != null) {
+            edtSearch.requestFocus();
+        }
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), activityResult -> {
                     if (activityResult.getResultCode() == RESULT_OK && activityResult.getData() !=null) {
                         if(activityResult.getData().getSerializableExtra("savedTS") != null){
                             TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll(); // lấy từ SQLite
                             adapterListTS.setData(TSList);
-                            adapterListTS.notifyDataSetChanged();
                             Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                             countTS.setText(""+TSList.size());
                         }
@@ -72,21 +79,38 @@ public class ListTaiSan extends AppCompatActivity {
                 }
         );
         setListTS();
+
+        btnSearchListTS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String keyword = edtSearch.getText().toString();
+                TSList =(ArrayList<TaiSan>) dbHelper.searchTaiSanByName(keyword);
+                adapterListTS.setData(TSList);
+                countTS.setText(""+TSList.size());
+            }
+        });
         countTS.setText(""+TSList.size());
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setListTS();
 
+    }
     private void setListTS() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RvListTS = findViewById(R.id.rv_listTS);
         RvListTS.setLayoutManager(linearLayoutManager);
+        //lấy all ts
         TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll();
         adapterListTS = new ListTSAdapter(TSList, new ListTSAdapter.ItemClickListener() {
             @Override
             public void onItemClick(TaiSan taiSan, int posistion) {
-//                Intent intent = new Intent(ListTaiSan.this, detailPage)
-//                Toast.makeText(ListTaiSan.this, taiSan.toString(), Toast.LENGTH_LONG).show();
-                //sang trang xem cgi tiết
+                Intent intent = new Intent(ListTaiSan.this, DetailTSActivity.class);
+                intent.putExtra("TSDetail", TSList.get(posistion));
+                setResult(RESULT_OK, intent);
+                launcher.launch(intent);
 
             }
         }, new ListTSAdapter.ItemClickLongListener() {
@@ -101,7 +125,7 @@ public class ListTaiSan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Tạo intent về LoginActivity
-                Intent intent = new Intent(ListTaiSan.this, UserActivity.class);
+                Intent intent = new Intent(ListTaiSan.this, HomeActivity.class);
                 // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -151,10 +175,6 @@ public class ListTaiSan extends AppCompatActivity {
             alert.show();
 
         }
-        if (item.getItemId() == R.id.menu_them) {
-            Intent them = new Intent(ListTaiSan.this, CreateTSActivity.class);
-            launcher.launch(them);
-        }
 
         return super.onContextItemSelected(item);
     }
@@ -164,6 +184,9 @@ public class ListTaiSan extends AppCompatActivity {
 
         countTS = findViewById(R.id.countTS);
         exitListTS = findViewById(R.id.btn_exitlistts);
+        edtSearch = findViewById(R.id.edtSearch);
+        btnSearchListTS = findViewById(R.id.btn_search_listts);
+
     }
 
 

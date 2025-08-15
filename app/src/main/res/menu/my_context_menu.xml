@@ -6,7 +6,4 @@
 <item
     android:id="@+id/menu_xoa"
     android:title="Xóa"/>
-<item
-    android:id="@+id/menu_them"
-    android:title="Thêm"/>
 </menu>

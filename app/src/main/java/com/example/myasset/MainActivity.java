@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         int userId = prefs.getInt("USER_ID", -1);
         if (userId != -1) {
             // Đã đăng nhập → chuyển thẳng sang MainActivity
-            startActivity(new Intent(this, ListTaiSan.class));
+            startActivity(new Intent(this, HomeActivity.class));
             finish(); // Không cho quay lại màn hình login
             return;
         }

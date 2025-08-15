@@ -312,5 +312,112 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0; // true nếu xóa thành công
     }
 
+    public long getTongGiaTriTaiSan() {
+        long tongGiaTri = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT SUM(giatri) AS tong FROM taisan WHERE idtk = ? ", new String[]{String.valueOf(idTK)});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            tongGiaTri = cursor.getLong(cursor.getColumnIndexOrThrow("tong"));
+            cursor.close();
+        }
+
+        db.close();
+        return tongGiaTri;
+    }
+
+    public List<TaiSan> searchTaiSanByName(String keyword) {
+        List<TaiSan> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM taisan WHERE tents LIKE ? AND idtk = ?";
+        String[] args = new String[]{"%" + keyword + "%", String.valueOf(idTK)};
+        Cursor cursor = db.rawQuery(sql, args);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                TaiSan ts = new TaiSan();
+                ts.setIdts(cursor.getInt(cursor.getColumnIndexOrThrow("idts")));
+                ts.setTents(cursor.getString(cursor.getColumnIndexOrThrow("tents")));
+                ts.setMota(cursor.getString(cursor.getColumnIndexOrThrow("mota")));
+                ts.setIddanhmuc(cursor.getInt(cursor.getColumnIndexOrThrow("iddanhmuc")));
+                ts.setNgaymua(cursor.getString(cursor.getColumnIndexOrThrow("ngaymua")));
+                ts.setTinhtrang(cursor.getString(cursor.getColumnIndexOrThrow("tinhtrang")));
+                ts.setGiatri(cursor.getInt(cursor.getColumnIndexOrThrow("giatri")));
+                ts.setVitri(cursor.getString(cursor.getColumnIndexOrThrow("vitri")));
+                ts.setGhichu(cursor.getString(cursor.getColumnIndexOrThrow("ghichu")));
+                ts.setBaohanhStart(cursor.getString(cursor.getColumnIndexOrThrow("baohanhStart")));
+                ts.setBaohanhEnd(cursor.getString(cursor.getColumnIndexOrThrow("baohanhEnd")));
+                ts.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+                ts.setSoluong(cursor.getInt(cursor.getColumnIndexOrThrow("soluong")));
+
+                // Nếu có ảnh BLOB
+                int idxAnh = cursor.getColumnIndex("anhts");
+                if (idxAnh != -1 && !cursor.isNull(idxAnh)) {
+                    ts.setAnhts(cursor.getBlob(idxAnh));
+                }
+                list.add(ts);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return list;
+    }
+
+    public DanhMuc getDanhMucById(int id) {
+        DanhMuc danhMuc = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM danhmuc WHERE iddanhmuc = ?",
+                new String[]{String.valueOf(id)}
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            danhMuc = new DanhMuc();
+            danhMuc.setIddanhmuc(cursor.getInt(cursor.getColumnIndexOrThrow("iddanhmuc")));
+            danhMuc.setTendm(cursor.getString(cursor.getColumnIndexOrThrow("tendm")));
+            danhMuc.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+        }
+
+        if (cursor != null) cursor.close();
+        db.close();
+
+        return danhMuc;
+    }
+
+    public TaiSan getTaiSanById(int id) {
+        TaiSan ts = new TaiSan();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM taisan WHERE idts = ? AND idtk = ?",
+                new String[]{String.valueOf(id),String.valueOf(idTK)});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            ts.setIdts(cursor.getInt(cursor.getColumnIndexOrThrow("idts")));
+            ts.setTents(cursor.getString(cursor.getColumnIndexOrThrow("tents")));
+            ts.setMota(cursor.getString(cursor.getColumnIndexOrThrow("mota")));
+            ts.setIddanhmuc(cursor.getInt(cursor.getColumnIndexOrThrow("iddanhmuc")));
+            ts.setNgaymua(cursor.getString(cursor.getColumnIndexOrThrow("ngaymua")));
+            ts.setTinhtrang(cursor.getString(cursor.getColumnIndexOrThrow("tinhtrang")));
+            ts.setGiatri(cursor.getInt(cursor.getColumnIndexOrThrow("giatri")));
+            ts.setVitri(cursor.getString(cursor.getColumnIndexOrThrow("vitri")));
+            ts.setGhichu(cursor.getString(cursor.getColumnIndexOrThrow("ghichu")));
+            ts.setBaohanhStart(cursor.getString(cursor.getColumnIndexOrThrow("baohanhStart")));
+            ts.setBaohanhEnd(cursor.getString(cursor.getColumnIndexOrThrow("baohanhEnd")));
+            ts.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+            ts.setSoluong(cursor.getInt(cursor.getColumnIndexOrThrow("soluong")));
+            // Nếu có ảnh BLOB
+            int idxAnh = cursor.getColumnIndex("anhts");
+            if (idxAnh != -1 && !cursor.isNull(idxAnh)) {
+                ts.setAnhts(cursor.getBlob(idxAnh));
+            }
+        }
+
+        if (cursor != null) cursor.close();
+        db.close();
+
+        return ts;
+    }
 
 }

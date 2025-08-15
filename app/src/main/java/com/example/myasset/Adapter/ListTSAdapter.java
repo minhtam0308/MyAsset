@@ -22,7 +22,9 @@ import com.bumptech.glide.Glide;
 import com.example.myasset.R;
 import com.example.myasset.model.TaiSan;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class ListTSAdapter extends RecyclerView.Adapter<ListTSAdapter.ViewHolder> {
@@ -52,9 +54,13 @@ public class ListTSAdapter extends RecyclerView.Adapter<ListTSAdapter.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position){
+        String baohanh = taiSans.get(position).getBaohanhEnd();
+        if(baohanh.isEmpty()){
+            baohanh = "Không có";
+        }
         holder.tenTS.setText(taiSans.get(position).getTents());
-        holder.giaTS.setText(String.valueOf(taiSans.get(position).getGiatri()));
-        holder.baoHanh.setText("Hạn bảo hành: " + taiSans.get(position).getBaohanhEnd());
+        holder.giaTS.setText(formatVND(taiSans.get(position).getGiatri()));
+        holder.baoHanh.setText("Hạn bảo hành: " + baohanh);
         holder.soTS.setText(String.valueOf(taiSans.get(position).getSoluong()));
         Bitmap img = getBitmapFromBytes(taiSans.get(position).getAnhts());
         if( img != null){
@@ -84,6 +90,10 @@ public class ListTSAdapter extends RecyclerView.Adapter<ListTSAdapter.ViewHolder
 
     public interface ItemClickListener{
         void onItemClick(TaiSan taiSan, int pos);
+    }
+    public String formatVND(long amount) {
+        NumberFormat vndFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        return vndFormat.format(amount);
     }
 
     public interface ItemClickLongListener{

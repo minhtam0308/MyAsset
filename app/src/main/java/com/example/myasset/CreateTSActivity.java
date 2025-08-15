@@ -240,8 +240,7 @@ public class CreateTSActivity extends AppCompatActivity {
                 if(dbHelper.insertTaiSan(savedTS)){
                     Intent tao = new Intent(CreateTSActivity.this, ListTaiSan.class);
                     tao.putExtra("savedTS", savedTS);
-                    setResult(RESULT_OK, tao);
-                    finish();
+                    startActivityForResult(tao, RESULT_OK);
                 }
 
             }

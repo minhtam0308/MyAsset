@@ -1,6 +1,8 @@
 package com.example.myasset.model;
 
-public class TaiKhoan {
+import java.io.Serializable;
+
+public class TaiKhoan implements Serializable {
     private int idtk;
     private String tentk;
     private String matkhau;
