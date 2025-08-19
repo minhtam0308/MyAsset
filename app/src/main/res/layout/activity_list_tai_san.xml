@@ -100,6 +100,12 @@
                 </LinearLayout>
 
 
+                <TextView
+                    android:id="@+id/tvRong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_listTS"
                     android:layout_width="match_parent"
@@ -109,5 +115,6 @@
                     />
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -244,6 +244,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public List<TaiSan> getTaiSanByDanhMuc(int idDanhMuc) {
+        List<TaiSan> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM taisan WHERE idtk = ? AND iddanhmuc = ?", new String[]{String.valueOf(idTK), String.valueOf(idDanhMuc)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                TaiSan ts = new TaiSan();
+                ts.setIdts(cursor.getInt(cursor.getColumnIndexOrThrow("idts")));
+                ts.setTents(cursor.getString(cursor.getColumnIndexOrThrow("tents")));
+                ts.setMota(cursor.getString(cursor.getColumnIndexOrThrow("mota")));
+                ts.setIddanhmuc(cursor.getInt(cursor.getColumnIndexOrThrow("iddanhmuc")));
+                ts.setNgaymua(cursor.getString(cursor.getColumnIndexOrThrow("ngaymua")));
+                ts.setTinhtrang(cursor.getString(cursor.getColumnIndexOrThrow("tinhtrang")));
+                ts.setGiatri(cursor.getInt(cursor.getColumnIndexOrThrow("giatri")));
+                ts.setVitri(cursor.getString(cursor.getColumnIndexOrThrow("vitri")));
+                ts.setGhichu(cursor.getString(cursor.getColumnIndexOrThrow("ghichu")));
+                ts.setBaohanhStart(cursor.getString(cursor.getColumnIndexOrThrow("baohanhStart")));
+                ts.setBaohanhEnd(cursor.getString(cursor.getColumnIndexOrThrow("baohanhEnd")));
+                ts.setIdtk(cursor.getInt(cursor.getColumnIndexOrThrow("idtk")));
+                ts.setSoluong(cursor.getInt(cursor.getColumnIndexOrThrow("soluong")));
+
+                // Lấy ảnh dạng byte[]
+                int colIndexAnh = cursor.getColumnIndex("anhts");
+                if (colIndexAnh != -1 && !cursor.isNull(colIndexAnh)) {
+                    ts.setAnhts(cursor.getBlob(colIndexAnh));
+                }
+                list.add(ts);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return list;
+    }
+
     public boolean updateTaiSan(TaiSan ts) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -418,6 +456,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return ts;
+    }
+
+    public boolean insertDanhMuc(String tenDanhMuc) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Kiểm tra trùng tên danh mục với idtk
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM danhmuc WHERE tendm = ? AND idtk = ?",
+                new String[]{tenDanhMuc, String.valueOf(idTK)}
+        );
+
+        boolean exists = (cursor != null && cursor.moveToFirst());
+        if (cursor != null) cursor.close();
+
+        if (exists) {
+            // Trùng tên => return false
+            return false;
+        } else {
+            // Không trùng => insert
+            ContentValues values = new ContentValues();
+            values.put("tendm", tenDanhMuc);
+            values.put("idtk", idTK);
+
+            long result = db.insert("danhmuc", null, values);
+            return result != -1; // thành công => true, thất bại => false
+        }
+    }
+
+    // Hàm update danh mục
+    public boolean updateDanhMuc(int idDanhMuc, String tenMoi) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 1. Kiểm tra trùng tên với danh mục khác
+        Cursor cursor = db.rawQuery("SELECT * FROM danhmuc WHERE tendm = ? AND idtk = ?",
+                new String[]{tenMoi, String.valueOf(idTK)});
+
+        boolean exists = cursor.moveToFirst(); // nếu có bản ghi → tên bị trùng
+        cursor.close();
+
+        if (exists) {
+            db.close();
+            return false; // tên bị trùng → không cho sửa
+        }
+
+        // 2. Không trùng thì tiến hành update
+        ContentValues values = new ContentValues();
+        values.put("tendm", tenMoi);
+
+        int rows = db.update("danhmuc", values, "iddanhmuc = ?", new String[]{String.valueOf(idDanhMuc)});
+        db.close();
+
+        return rows > 0; // true nếu update thành công
+    }
+    public boolean deleteDanhMuc(int idDanhMuc) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete("danhmuc", "iddanhmuc = ?", new String[]{String.valueOf(idDanhMuc)});
+        db.close();
+        return result > 0; // true nếu xóa thành công
     }
 
 }

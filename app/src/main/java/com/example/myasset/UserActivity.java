@@ -1,5 +1,7 @@
 package com.example.myasset;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,8 +18,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myasset.model.TaiKhoan;
+import com.example.myasset.model.TaiSan;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class UserActivity extends AppCompatActivity {
     TextView tvValueName, tvValuePhone, tvValueGender, tvValueBirth;
@@ -57,18 +61,29 @@ public class UserActivity extends AppCompatActivity {
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
             //them (tam)
-            // Xóa USER_ID trong SharedPreferences
-            SharedPreferences prefs = getSharedPreferences(ID_FILENAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.remove("USER_ID");
-            editor.apply();
+            AlertDialog.Builder alert =new AlertDialog.Builder(UserActivity.this);
+            alert.setTitle("Xác nhận");
+            alert.setMessage("Bạn có chắc muốn đăng xuất không?");
+            alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {;
 
-            // Tạo intent về LoginActivity
-            Intent intent = new Intent(UserActivity.this, LoginActivity.class);
-            // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+                    // Xóa USER_ID trong SharedPreferences
+                    SharedPreferences prefs = getSharedPreferences(ID_FILENAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.remove("USER_ID");
+                    editor.apply();
+
+                    // Tạo intent về LoginActivity
+                    Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+                    // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            alert.setNegativeButton("Không", null);
+            alert.show();
         });
 
 
@@ -113,6 +128,13 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+        navDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserActivity.this, DanhMucActivity.class);
                 startActivity(intent);
             }
         });

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myasset.Adapter.ListTSAdapter;
+import com.example.myasset.model.DanhMuc;
 import com.example.myasset.model.TaiSan;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class ListTaiSan extends AppCompatActivity {
     private ListTSAdapter adapterListTS;
     private ActivityResultLauncher<Intent> launcher;
     private EditText edtSearch;
-    private TextView countTS;
+    private TextView countTS, tvRong;
     ArrayList<TaiSan> TSList = new ArrayList<TaiSan>();
     private ImageView exitListTS, btnSearchListTS;
     DatabaseHelper dbHelper;
@@ -61,12 +62,12 @@ public class ListTaiSan extends AppCompatActivity {
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), activityResult -> {
                     if (activityResult.getResultCode() == RESULT_OK && activityResult.getData() !=null) {
-                        if(activityResult.getData().getSerializableExtra("savedTS") != null){
-                            TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll(); // lấy từ SQLite
-                            adapterListTS.setData(TSList);
-                            Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                            countTS.setText(""+TSList.size());
-                        }
+//                        if(activityResult.getData().getSerializableExtra("savedTS") != null){
+//                            TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll(); // lấy từ SQLite
+//                            adapterListTS.setData(TSList);
+//                            Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+//                            countTS.setText(""+TSList.size());
+//                        }
                         if(activityResult.getData().getSerializableExtra("editedTS") != null){
 //                            TaiSan test =(TaiSan) activityResult.getData().getSerializableExtra("editedTS");
 //                            Toast.makeText(this, test.getTinhtrang(), Toast.LENGTH_SHORT).show();
@@ -102,8 +103,20 @@ public class ListTaiSan extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         RvListTS = findViewById(R.id.rv_listTS);
         RvListTS.setLayoutManager(linearLayoutManager);
-        //lấy all ts
-        TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll();
+        Intent getiddanhmuc = getIntent();
+        if(getiddanhmuc != null && getiddanhmuc.getSerializableExtra("getTSByDanhMuc") != null){
+            DanhMuc danhMuc = (DanhMuc) getiddanhmuc.getSerializableExtra("getTSByDanhMuc");
+            TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanByDanhMuc(danhMuc.getIddanhmuc());
+        }else{
+            //lấy all ts
+            TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll();
+        }
+        countTS.setText(""+TSList.size());
+        if(TSList.isEmpty()){
+            tvRong.setText("Không có tài sản nào!");
+        }else {
+            tvRong.setText(null);
+        }
         adapterListTS = new ListTSAdapter(TSList, new ListTSAdapter.ItemClickListener() {
             @Override
             public void onItemClick(TaiSan taiSan, int posistion) {
@@ -125,10 +138,10 @@ public class ListTaiSan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Tạo intent về LoginActivity
-                Intent intent = new Intent(ListTaiSan.this, HomeActivity.class);
+//                Intent intent = new Intent(ListTaiSan.this, HomeActivity.class);
                 // Xóa lịch sử để không thể back lại màn hình UserActivity sau khi logout
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
                 finish();
             }
         });
@@ -186,6 +199,7 @@ public class ListTaiSan extends AppCompatActivity {
         exitListTS = findViewById(R.id.btn_exitlistts);
         edtSearch = findViewById(R.id.edtSearch);
         btnSearchListTS = findViewById(R.id.btn_search_listts);
+        tvRong = findViewById(R.id.tvRong);
 
     }
 

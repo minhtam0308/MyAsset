@@ -13,12 +13,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +38,12 @@ import com.example.myasset.model.DanhMuc;
 import com.example.myasset.model.TaiSan;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 
 public class CreateTSActivity extends AppCompatActivity {
 
@@ -86,6 +87,7 @@ public class CreateTSActivity extends AppCompatActivity {
                     }
                 }
         );
+
         btnThuVien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,9 +240,11 @@ public class CreateTSActivity extends AppCompatActivity {
 
                 TaiSan savedTS = gatherTaiSan();
                 if(dbHelper.insertTaiSan(savedTS)){
-                    Intent tao = new Intent(CreateTSActivity.this, ListTaiSan.class);
-                    tao.putExtra("savedTS", savedTS);
-                    startActivityForResult(tao, RESULT_OK);
+//                    Intent tao = new Intent(CreateTSActivity.this, ListTaiSan.class);
+//                    tao.putExtra("savedTS", savedTS);
+                    Toast.makeText(CreateTSActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+//                    startActivityForResult(tao, RESULT_OK);
+                    finish();
                 }
 
             }
@@ -344,8 +348,10 @@ public class CreateTSActivity extends AppCompatActivity {
 
     public void settingSprinnerDanhMucTS() {
         danhmucs =  (ArrayList<DanhMuc>) dbHelper.getAllDanhMuc();
-        ArrayAdapter<DanhMuc> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, danhmucs);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<DanhMuc> adapter = new ArrayAdapter<DanhMuc>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                danhmucs);
+
         createDanhmucTS.setAdapter(adapter);
         createDanhmucTS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -367,8 +373,11 @@ public class CreateTSActivity extends AppCompatActivity {
         tinhtrangs.add("Đã thanh lý");
         tinhtrangs.add("Đã hỏng");
         tinhtrangs.add("Đã mất");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tinhtrangs);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tinhtrangs);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                tinhtrangs);
         createTinhTrangts.setAdapter(adapter);
         createTinhTrangts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override

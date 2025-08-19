@@ -22,6 +22,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAsset">
         <activity
+            android:name=".EditDanhmucActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateDanhMuc"
+            android:exported="false" />
+        <activity
+            android:name=".DanhMucActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailTSActivity"
             android:exported="false" />
         <activity

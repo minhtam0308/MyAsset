@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DanhMucActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10sp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:paddingStart="15sp"
+                android:text="Danh mục"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/danhmuc_btn_createDanhmuc"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="+"
+                android:textSize="34sp" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lvDanhMuc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottom_nav_container"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Trang chủ -->
+        <LinearLayout
+            android:id="@+id/navHome"
+            style="@style/BottomNavItem">
+
+            <ImageView
+                style="@style/BottomNavIcon"
+                android:src="@drawable/ic_home" />
+
+            <TextView
+                style="@style/BottomNavText"
+                android:text="Trang chủ" />
+        </LinearLayout>
+
+        <!-- Tài sản -->
+        <LinearLayout
+            android:id="@+id/navDanhMuc"
+            style="@style/BottomNavItem">
+
+            <ImageView
+                style="@style/BottomNavIcon"
+                android:src="@drawable/ic_category" />
+
+            <TextView
+                style="@style/BottomNavText"
+                android:text="Danh muc" />
+        </LinearLayout>
+
+        <!-- tai khoan -->
+        <LinearLayout
+            android:id="@+id/navUser"
+            style="@style/BottomNavItem">
+
+            <ImageView
+                style="@style/BottomNavIcon"
+                android:src="@drawable/ic_user" />
+
+            <TextView
+                style="@style/BottomNavText"
+                android:text="Tài Khoản" />
+        </LinearLayout>
+        <!-- Cài đặt -->
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

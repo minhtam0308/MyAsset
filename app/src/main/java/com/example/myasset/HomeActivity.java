@@ -118,6 +118,13 @@ public class HomeActivity extends AppCompatActivity {
                 launcher.launch(intent);
             }
         });
+        navDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, DanhMucActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -52,7 +52,7 @@
                         android:layout_height="64dp"
                         android:contentDescription="Ảnh đại diện"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_avatar"
+                        android:src="@drawable/avt"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
