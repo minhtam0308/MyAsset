@@ -143,8 +143,8 @@ public class DetailTSActivity extends AppCompatActivity {
                     trangthaiBaoHanh.setText("Còn "+nghet+ " ngày");
                     trangthaiBaoHanh.setBackgroundColor(Color.BLUE);
                 } else if (nghet == 0) {
-                    trangthaiBaoHanh.setText("Ngày hôm nay");
-                    trangthaiBaoHanh.setBackgroundColor(Color.YELLOW);
+                    trangthaiBaoHanh.setText("Hết hạn hôm nay");
+                    trangthaiBaoHanh.setBackgroundColor(Color.RED);
                 }else{
                     trangthaiBaoHanh.setText("Đã hết hạn bảo hành");
                     trangthaiBaoHanh.setBackgroundColor(Color.RED);

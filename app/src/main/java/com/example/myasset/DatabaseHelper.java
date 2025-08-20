@@ -512,8 +512,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deleteDanhMuc(int idDanhMuc) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete("danhmuc", "iddanhmuc = ?", new String[]{String.valueOf(idDanhMuc)});
+        int rows = db.delete("taisan", "iddanhmuc = ?", new String[]{String.valueOf(idDanhMuc)});
         db.close();
-        return result > 0; // true nếu xóa thành công
+        return result > 0 && rows > 0; // true nếu xóa thành công
     }
 
 }

@@ -117,7 +117,7 @@ public class DanhMucActivity extends AppCompatActivity {
 
             AlertDialog.Builder alert =new AlertDialog.Builder(DanhMucActivity.this);
             alert.setTitle("Xác nhận");
-            alert.setMessage("Bạn muốn xóa danh mục này?");
+            alert.setMessage("Bạn muốn xóa danh mục này, nếu xóa sẽ xóa toàn  bộ sản phẩm thuộc danh mục?");
             alert.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {;
