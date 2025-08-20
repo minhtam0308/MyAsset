@@ -185,8 +185,8 @@ public class EditUserActivity extends AppCompatActivity {
             return false;
         }
         if(!edtPhone.getText().toString().isEmpty()){
-            if(edtPhone.getText().toString().length() < 10){
-                edtPhone.setError("Tên người dùng không đuợc để trống");
+            if(edtPhone.getText().toString().length() < 10|| edtPhone.getText().toString().length() > 15){
+                edtPhone.setError("Vui lòng nhập số điện thoại từ 10 đến 15 chữ số");
                 return false;
             }
         }
