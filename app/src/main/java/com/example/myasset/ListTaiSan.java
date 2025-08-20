@@ -38,6 +38,7 @@ public class ListTaiSan extends AppCompatActivity {
     ArrayList<TaiSan> TSList = new ArrayList<TaiSan>();
     private ImageView exitListTS, btnSearchListTS;
     DatabaseHelper dbHelper;
+    private int iddanhmuc = -1;
 
     private int posMenu = 0;
 
@@ -85,7 +86,11 @@ public class ListTaiSan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String keyword = edtSearch.getText().toString();
-                TSList =(ArrayList<TaiSan>) dbHelper.searchTaiSanByName(keyword);
+                if(iddanhmuc == -1){
+                    TSList =(ArrayList<TaiSan>) dbHelper.searchTaiSanByName(keyword);
+                }else{
+                    TSList =(ArrayList<TaiSan>) dbHelper.searchTaiSanByNameAnđanhmuc(keyword, iddanhmuc);
+                }
                 adapterListTS.setData(TSList);
                 countTS.setText(""+TSList.size());
             }
@@ -107,9 +112,11 @@ public class ListTaiSan extends AppCompatActivity {
         if(getiddanhmuc != null && getiddanhmuc.getSerializableExtra("getTSByDanhMuc") != null){
             DanhMuc danhMuc = (DanhMuc) getiddanhmuc.getSerializableExtra("getTSByDanhMuc");
             TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanByDanhMuc(danhMuc.getIddanhmuc());
+            iddanhmuc = danhMuc.getIddanhmuc();
         }else{
             //lấy all ts
             TSList =(ArrayList<TaiSan>) dbHelper.getTaiSanAll();
+            iddanhmuc = -1;
         }
         countTS.setText(""+TSList.size());
         if(TSList.isEmpty()){
