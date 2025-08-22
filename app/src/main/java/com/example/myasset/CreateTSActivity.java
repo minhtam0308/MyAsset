@@ -265,6 +265,7 @@ public class CreateTSActivity extends AppCompatActivity {
         if (requestCode == 99 && resultCode == Activity.RESULT_OK)
         {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
+            photo = resizeBitmap(photo, 800, 800);
             createImgTS.setImageBitmap(photo);
             check = true;
         }
